@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memorizer</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+    <h1>Memorizer</h1>
+    <div id="controls">
+        <label for="passage-select">Choose a passage:</label>
+        <select id="passage-select">
+            <option value="" disabled selected>Select a passage</option>
+        </select>
+
+        <label for="difficulty-slider">Difficulty:</label>
+        <input type="range" id="difficulty-slider" min="1" max="100" value="10">
+    </div>
+
+    <div id="passage-display">
+        <!-- Passage with blanks will be displayed here -->
+    </div>
+
+    <button id="grade-btn">Grade Answers</button>
+    <button id="redo-btn">Redo</button>
+
+    <script src="scripts/app.js"></script>
+</body>
+
+</html>

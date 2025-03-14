@@ -1,0 +1,15 @@
+{
+  "name": "TongAmgi",
+  "short_name": "TongAmgi",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "description": "App for memorizing speeches.",
+  "icons": [
+      {
+          "src": "icon.png",
+          "type": "image/png",
+          "sizes": "192x192"
+      }
+  ]
+}
