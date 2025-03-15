@@ -1,3 +1,5 @@
 [
-  { "name": "교과서 본문", "file": "example.txt" }
+  { "name": "영독연 1회", "file": "1.txt" },
+  { "name": "영독연 2회", "file": "2.txt" },
+  { "name": "영독연 3회", "file": "3.txt" }
 ]
