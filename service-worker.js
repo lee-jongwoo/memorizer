@@ -1,6 +1,8 @@
+const CACHE_NAME = 'v0.1';
+
 self.addEventListener('install', (event) => {
   event.waitUntil(
-      caches.open('v0.1').then((cache) => {
+      caches.open(CACHE_NAME).then((cache) => {
           return cache.addAll(['/', '/index.html', '/styles/style.css', '/scripts/app.js', 'texts/']);
       })
   );

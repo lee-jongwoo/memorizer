@@ -90,16 +90,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to replace certain words with blanks based on difficulty
     function displayPassageWithBlanks(text) {
-        const words = text.replace(/\n/g, ' \n ').split(' '); // Split text by spaces while preserving newlines
+        const words = text.replace(/\n/g, ' \n ').split(' '); 
         const numberOfBlanks = Math.floor(words.length * (difficultySlider.value / 100));
-        const blankIndices = [];
+        const blankIndices = new Set();
+        const meaninglessWords = new Set(['a', 'the', 'an', 'and', 'but', 'or', 'so']);
 
         passageDisplay.innerHTML = ''; // Clear previous content
 
-        while (blankIndices.length < numberOfBlanks) {
+        while (blankIndices.size < numberOfBlanks) {
             const randomIndex = Math.floor(Math.random() * words.length);
-            if (!blankIndices.includes(randomIndex) && words[randomIndex] !== '\n') {
-                blankIndices.push(randomIndex);
+            const { strippedWord } = stripPunctuation(words[randomIndex]);
+            if (words[randomIndex] !== '\n' && !meaninglessWords.has(strippedWord.toLowerCase()) && strippedWord.length > 1) {
+                blankIndices.add(randomIndex);
             }
         }
 
@@ -108,25 +110,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (word === '\n') {
                 passageDisplay.appendChild(document.createElement('br'));
-            } else if (blankIndices.includes(wordIndex)) {
+            } else if (blankIndices.has(wordIndex)) {
                 passageDisplay.appendChild(document.createTextNode(leadingPunctuation));
 
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.className = 'blank';
-                input.size = strippedWord.length;
-                input.dataset.correctWord = strippedWord; // Store the correct word as a data attribute
-                input.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter') {
-                        const inputs = Array.from(passageDisplay.getElementsByClassName('blank'));
-                        const index = inputs.indexOf(e.target);
-                        if (index >= 0 && index < inputs.length - 1) {
-                            inputs[index + 1].focus(); // Focus next blank
+                if (strippedWord.length > 0) { // Ensure strippedWord is not empty
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'blank';
+                    input.size = Math.max(1, strippedWord.length); // Ensure size is at least 1
+                    input.dataset.correctWord = strippedWord;
+                    input.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            const inputs = Array.from(passageDisplay.getElementsByClassName('blank'));
+                            const index = inputs.indexOf(e.target);
+                            if (index >= 0 && index < inputs.length - 1) {
+                                inputs[index + 1].focus();
+                            }
                         }
-                    }
-                });
+                    });
 
-                passageDisplay.appendChild(input);
+                    passageDisplay.appendChild(input);
+                }
+
                 passageDisplay.appendChild(document.createTextNode(trailingPunctuation + ' '));
             } else {
                 passageDisplay.appendChild(document.createTextNode(word + ' '));
@@ -144,11 +150,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 input.style.backgroundColor = 'lightgreen'; // Green for correct
             } else {
                 input.style.backgroundColor = 'lightcoral'; // Red for incorrect
+                const feedback = document.createElement('span');
+                feedback.className = 'correct-answer';
+                feedback.style.color = 'gray';
+                feedback.textContent = ` (${input.dataset.correctWord})`;
                 if (!input.nextSibling || !input.nextSibling.classList || !input.nextSibling.classList.contains('correct-answer')) {
-                    const feedback = document.createElement('span');
-                    feedback.className = 'correct-answer';
-                    feedback.style.color = 'gray';
-                    feedback.textContent = ` (${input.dataset.correctWord})`;
                     passageDisplay.insertBefore(feedback, input.nextSibling);
                 }
             }
@@ -159,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to redo the passage
     function redoPassage() {
         if (currentFileName) {
-            loadPassage(currentFileName);  // Reload the current passage
+            loadPassage(currentFileName);
         }
     }
 

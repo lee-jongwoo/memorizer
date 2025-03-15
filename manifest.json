@@ -1,10 +1,10 @@
 {
-  "name": "TongAmgi",
-  "short_name": "TongAmgi",
+  "name": "Memorizer",
+  "short_name": "Memorizer",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "description": "App for memorizing speeches.",
+  "description": "App for memorizing passages.",
   "icons": [
       {
           "src": "icon.png",
