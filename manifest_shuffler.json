@@ -1,0 +1,15 @@
+{
+  "name": "Shuffler",
+  "short_name": "Shuffler",
+  "start_url": "/shuffler.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "description": "App for memorizing passages.",
+  "icons": [
+      {
+          "src": "icon_shuffler.png",
+          "type": "image/png",
+          "sizes": "192x192"
+      }
+  ]
+}

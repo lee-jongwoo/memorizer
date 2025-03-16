@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Shuffler.html -->
+<!-- create quizzes in which the user matches the order 
+ of consecutive  sentences from a passage shuffled randomly. -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shuffler</title>
+    <link rel="stylesheet" href="styles/shuffler.css">
+    <link rel="manifest" href="manifest_shuffler.json">
+</head>
+
+<body>
+    <h1>Shuffler</h1>
+    <div id="controls">
+        <label for="passage-select">Choose a passage:</label>
+        <select id="passage-select">
+            <option value="" disabled selected>Select a passage</option>
+        </select>
+
+        <label for="difficulty-slider">Difficulty:</label>
+        <input type="range" id="difficulty-slider" min="3" max="6" value="3">
+    </div>
+
+    <div id="passage-display">
+        <div id="sentences"></div>
+        <!-- display user answer -->
+        <p id="user-answer"></p>
+        <p id="feedback"></p>
+    </div>
+    <button id="submit">Submit</button>
+    <button id="clear">Clear</button>
+    <script src="scripts/shuffler.js"></script>
+</body>
+
+</html>
