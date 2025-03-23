@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v0.3';
+const CACHE_NAME = 'v0.4';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -14,7 +14,7 @@ self.addEventListener('install', (event) => {
       } catch (error) {
         console.error('Error loading passages:', error);
       }
-      await cache.addAll(['/', '/index.html', '/styles/style.css', '/scripts/app.js'].concat(passage_paths));
+      await cache.addAll(['/', '/index.html', '/styles/style.css', '/styles/shuffler.css', '/scripts/app.js', '/scripts/shuffler.js', '/shuffler.html'].concat(passage_paths));
     })()
   );
 });

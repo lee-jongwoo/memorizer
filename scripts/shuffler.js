@@ -31,7 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const text = await response.text();
       currentFileName = fileName;
       currentPassageParagraphs = text.split('\n\n');
-      currentPassageSentences = currentPassageParagraphs.map(paragraph => paragraph.split('. '));
+      // split paragraphs by periods and question marks
+      currentPassageSentences = currentPassageParagraphs.map(paragraph => paragraph.split(/(?<=[.?!])\s/));
       generateQuestion();
     } catch (error) {
       console.error('Error loading passage:', error);
@@ -45,17 +46,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectedSentences = paragraph.slice(startIndex, startIndex + lengthToShuffle);
     const shuffledSentences = shuffle(selectedSentences);
     // answer indices in format 'BCA' 'CAB' etc.
-    const answer = shuffledSentences.map((sentence, index) => 'ABCDEFGHIJKL'[selectedSentences.indexOf(sentence)]).join('');
+    const answer = shuffledSentences.map((sentence, _index) => 'ABCDEFGHIJKL'[selectedSentences.indexOf(sentence)]).join('');
 
     // display question
     passageDisplay.innerHTML = '';
     passageDisplay.dataset.answer = answer;
+    userAnswerDisplay.style.color = 'black';
     for (let i = 0; i < shuffledSentences.length; i++) {
       const sentence = shuffledSentences[i];
       const sentenceElement = document.createElement('p');
-      sentenceElement.textContent = `(${'ABCDEFGHIJKL'[i]}) ` + sentence + '.';
+      sentenceElement.textContent = `(${'ABCDEFGHIJKL'[i]}) ` + sentence;
       sentenceElement.addEventListener('click', () => {
-        userAnswer += 'ABCDEFGHIJKL'[i];
+        // add answer only if it is not already in the answer
+        if (!userAnswer.includes('ABCDEFGHIJKL'[i])) {
+          userAnswer += 'ABCDEFGHIJKL'[i]
+        } else {
+          userAnswer = userAnswer.replace('ABCDEFGHIJKL'[i], '');
+        };
         userAnswerDisplay.textContent = userAnswer.split('').map((char) => `(${char})`).join(' - ');
       });
       passageDisplay.appendChild(sentenceElement);
@@ -79,6 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Event listener for difficulty slider
+  difficultySlider.addEventListener('input', () => {
+    generateQuestion();
+  });
+
   // Event listener for buttons
   document.getElementById('submit').addEventListener('click', () => {
     const answer = passageDisplay.dataset.answer;
@@ -100,7 +112,14 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('clear').addEventListener('click', () => {
     userAnswer = '';
     userAnswerDisplay.textContent = '';
+    userAnswerDisplay.style.color = 'black';
     feedbackDisplay.textContent = '';
+  });
+
+  document.getElementById('gg').addEventListener('click', () => {
+    userAnswer = passageDisplay.dataset.answer;
+    userAnswerDisplay.style.color = 'red';
+    userAnswerDisplay.textContent = userAnswer.split('').map((char) => `(${char})`).join(' - ');
   });
 
   // Initial load of passage list
