@@ -1,5 +1,9 @@
 [
+  { "name": "교과서 1과", "file": "book1.txt" },
   { "name": "영독연 1회", "file": "1.txt" },
   { "name": "영독연 2회", "file": "2.txt" },
-  { "name": "영독연 3회", "file": "3.txt" }
+  { "name": "영독연 3회", "file": "3.txt" },
+  { "name": "영독연 4회", "file": "4.txt" },
+  { "name": "영독연 5회", "file": "5.txt" },
+  { "name": "듣기 수행평가", "file": "listening.txt" }
 ]
