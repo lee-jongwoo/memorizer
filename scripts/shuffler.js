@@ -43,10 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const lengthToShuffle = difficultySlider.value / 1;
     const paragraph = currentPassageSentences[Math.floor(Math.random() * currentPassageSentences.length)];
     const startIndex = Math.floor(Math.random() * (paragraph.length - lengthToShuffle));
-    const selectedSentences = paragraph.slice(startIndex, startIndex + lengthToShuffle);
-    const shuffledSentences = shuffle(selectedSentences);
+    const sentencesToShuffle = paragraph.slice(startIndex, startIndex + lengthToShuffle);
+    const shuffledIndices = shuffle([...Array(lengthToShuffle).keys()]);
+    const shuffledSentences = shuffledIndices.map(index => sentencesToShuffle[index]);
+
     // answer indices in format 'BCA' 'CAB' etc.
-    const answer = shuffledSentences.map((sentence, _index) => 'ABCDEFGHIJKL'[selectedSentences.indexOf(sentence)]).join('');
+    const answer = sentencesToShuffle.map((_, index) => 'ABCDEFGHIJKL'[shuffledIndices.indexOf(index)]).join('');
 
     // display question
     passageDisplay.innerHTML = '';
@@ -59,10 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
       sentenceElement.addEventListener('click', () => {
         // add answer only if it is not already in the answer
         if (!userAnswer.includes('ABCDEFGHIJKL'[i])) {
-          userAnswer += 'ABCDEFGHIJKL'[i]
+          userAnswer += 'ABCDEFGHIJKL'[i];
         } else {
           userAnswer = userAnswer.replace('ABCDEFGHIJKL'[i], '');
-        };
+        }
         userAnswerDisplay.textContent = userAnswer.split('').map((char) => `(${char})`).join(' - ');
       });
       passageDisplay.appendChild(sentenceElement);
@@ -102,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         userAnswerDisplay.textContent = '';
         feedbackDisplay.textContent = '';
         generateQuestion();
-      },500);
+      }, 500);
     } else {
       feedbackDisplay.textContent = 'Try again!';
       feedbackDisplay.style.color = 'red';
