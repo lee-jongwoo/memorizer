@@ -40,39 +40,39 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function generateQuestion() {
-  const lengthToShuffle = difficultySlider.value / 1;
-  const paragraph = currentPassageSentences[Math.floor(Math.random() * currentPassageSentences.length)];
-  const startIndex = Math.floor(Math.random() * (paragraph.length - lengthToShuffle));
-  const selectedSentences = paragraph.slice(startIndex, startIndex + lengthToShuffle);
-  const shuffledSentences = shuffle(selectedSentences);
+    const lengthToShuffle = difficultySlider.value / 1;
+    const paragraph = currentPassageSentences[Math.floor(Math.random() * currentPassageSentences.length)];
+    const startIndex = Math.floor(Math.random() * (paragraph.length - lengthToShuffle));
+    const sentencesToShuffle = paragraph.slice(startIndex, startIndex + lengthToShuffle);
+    console.log(sentencesToShuffle);
+    const shuffledIndices = shuffle([...Array(lengthToShuffle).keys()]);
+    console.log(shuffledIndices);
+    const shuffledSentences = shuffledIndices.map(index => sentencesToShuffle[index]);
+    console.log(shuffledSentences);
 
-  // create a mapping of the original indices to the shuffled indices
-  const originalIndices = selectedSentences.map((sentence, index) => index);
-  const shuffledIndices = shuffledSentences.map(sentence => originalIndices[selectedSentences.indexOf(sentence)]);
+    // answer indices in format 'BCA' 'CAB' etc.
+    const answer = sentencesToShuffle.map((_, index) => 'ABCDEFGHIJKL'[shuffledIndices.indexOf(index)]).join('');
 
-  // answer indices in format 'BCA' 'CAB' etc.
-  const answer = shuffledIndices.map(index => 'ABCDEFGHIJKL'[index]).join('');
-
-  // display question
-  passageDisplay.innerHTML = '';
-  passageDisplay.dataset.answer = answer;
-  userAnswerDisplay.style.color = 'black';
-  for (let i = 0; i < shuffledSentences.length; i++) {
-    const sentence = shuffledSentences[i];
-    const sentenceElement = document.createElement('p');
-    sentenceElement.textContent = `(${'ABCDEFGHIJKL'[i]}) ` + sentence;
-    sentenceElement.addEventListener('click', () => {
-      // add answer only if it is not already in the answer
-      if (!userAnswer.includes('ABCDEFGHIJKL'[i])) {
-        userAnswer += 'ABCDEFGHIJKL'[i];
-      } else {
-        userAnswer = userAnswer.replace('ABCDEFGHIJKL'[i], '');
-      }
-      userAnswerDisplay.textContent = userAnswer.split('').map((char) => `(${char})`).join(' - ');
-    });
-    passageDisplay.appendChild(sentenceElement);
+    // display question
+    passageDisplay.innerHTML = '';
+    passageDisplay.dataset.answer = answer;
+    userAnswerDisplay.style.color = 'black';
+    for (let i = 0; i < shuffledSentences.length; i++) {
+      const sentence = shuffledSentences[i];
+      const sentenceElement = document.createElement('p');
+      sentenceElement.textContent = `(${'ABCDEFGHIJKL'[i]}) ` + sentence;
+      sentenceElement.addEventListener('click', () => {
+        // add answer only if it is not already in the answer
+        if (!userAnswer.includes('ABCDEFGHIJKL'[i])) {
+          userAnswer += 'ABCDEFGHIJKL'[i];
+        } else {
+          userAnswer = userAnswer.replace('ABCDEFGHIJKL'[i], '');
+        }
+        userAnswerDisplay.textContent = userAnswer.split('').map((char) => `(${char})`).join(' - ');
+      });
+      passageDisplay.appendChild(sentenceElement);
+    }
   }
-}
 
   function shuffle(array) {
     const shuffledArray = [...array];
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         userAnswerDisplay.textContent = '';
         feedbackDisplay.textContent = '';
         generateQuestion();
-      },500);
+      }, 500);
     } else {
       feedbackDisplay.textContent = 'Try again!';
       feedbackDisplay.style.color = 'red';
