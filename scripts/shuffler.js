@@ -44,11 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const paragraph = currentPassageSentences[Math.floor(Math.random() * currentPassageSentences.length)];
     const startIndex = Math.floor(Math.random() * (paragraph.length - lengthToShuffle));
     const sentencesToShuffle = paragraph.slice(startIndex, startIndex + lengthToShuffle);
-    console.log(sentencesToShuffle);
     const shuffledIndices = shuffle([...Array(lengthToShuffle).keys()]);
-    console.log(shuffledIndices);
     const shuffledSentences = shuffledIndices.map(index => sentencesToShuffle[index]);
-    console.log(shuffledSentences);
 
     // answer indices in format 'BCA' 'CAB' etc.
     const answer = sentencesToShuffle.map((_, index) => 'ABCDEFGHIJKL'[shuffledIndices.indexOf(index)]).join('');
