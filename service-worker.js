@@ -1,11 +1,12 @@
-const cacheName = 'memorizer-v1';
+const cacheName = 'memorizer-v1.0.1';
 const appShellFiles = [
   '/index.html', 
   '/styles/style.css', 
   '/styles/shuffler.css', 
   '/scripts/app.js', 
   '/scripts/shuffler.js', 
-  '/shuffler.html'
+  '/shuffler.html',
+  '/service-worker.js'
 ];
 
 
