@@ -5,8 +5,7 @@ const appShellFiles = [
   '/styles/shuffler.css', 
   '/scripts/app.js', 
   '/scripts/shuffler.js', 
-  '/shuffler.html',
-  '/service-worker.js'
+  '/shuffler.html'
 ];
 
 
