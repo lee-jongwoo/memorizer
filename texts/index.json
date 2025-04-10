@@ -5,5 +5,11 @@
   { "name": "영독연 3회", "file": "3.txt" },
   { "name": "영독연 4회", "file": "4.txt" },
   { "name": "영독연 5회", "file": "5.txt" },
-  { "name": "듣기 수행평가", "file": "listening.txt" }
+  { "name": "영독연 6회", "file": "6.txt" },
+  { "name": "영독연 7회", "file": "7.txt" },
+  { "name": "영독연 8회", "file": "8.txt" },
+  { "name": "영독연 9회", "file": "9.txt" },
+  { "name": "영독연 10회", "file": "10.txt" },
+  { "name": "추가프린트 1", "file": "listening.txt" },
+  { "name": "추가프린트 2", "file": "sup2.txt"}
 ]
